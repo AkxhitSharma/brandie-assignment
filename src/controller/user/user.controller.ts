@@ -7,7 +7,8 @@ export async function followUser(req: any, res: any) {
   try {
     await insertFollower(me, targetId) 
     res.status(204).send();
-  } catch {
+  } catch (e) {
+    console.error('user.follow error:', { me, targetId, error: e });
     res.status(500).json({ error: 'Failed to follow' });
   }
 }
@@ -18,7 +19,8 @@ export async function unfollowUser(req: any, res: any) {
   try {
     await deleteFollower(me, targetId);
     res.status(204).send();
-  } catch {
+  } catch (e) {
+    console.error('user.unfollow error:', { me, targetId, error: e });
     res.status(500).json({ error: 'Failed to unfollow' });
   }
 }
@@ -33,7 +35,8 @@ export async function listFollowers(req: any, res: any) {
       createdAt: r.created_at,
     }));
     res.json(items);
-  } catch {
+  } catch (e) {
+    console.error('user.listFollowers error:', { id, error: e });
     res.status(500).json({ error: 'Failed to load followers' });
   }
 }
@@ -48,7 +51,8 @@ export async function listFollowing(req: any, res: any) {
       createdAt: r.created_at,
     }));
     res.json(items);
-  } catch {
+  } catch (e) {
+    console.error('user.listFollowing error:', { id, error: e });
     res.status(500).json({ error: 'Failed to load following' });
   }
 }

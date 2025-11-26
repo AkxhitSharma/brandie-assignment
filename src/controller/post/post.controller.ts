@@ -23,7 +23,8 @@ export async function createPost(req: Request, res: Response) {
       mediaUrl: row.media_url,
       createdAt: row.created_at,
     });
-  } catch {
+  } catch (e) {
+    console.error('post.create error:', { authorId, id, error: e });
     return res.status(500).json({ error: 'Failed to create post' });
   }
 }
@@ -42,7 +43,8 @@ export async function listUserPosts(req: Request, res: Response) {
       createdAt: r.created_at,
     }));
     return res.json({ items, nextCursor: items.length ? items[items.length - 1].createdAt : null });
-  } catch {
+  } catch (e) {
+    console.error('post.listUserPosts error:', { id, limit, cursor, error: e });
     return res.status(500).json({ error: 'Failed to load posts' });
   }
 }
@@ -61,7 +63,8 @@ export async function feedForMe(req: Request, res: Response) {
       createdAt: r.created_at,
     }));
     return res.json({ items, nextCursor: items.length ? items[items.length - 1].createdAt : null });
-  } catch {
+  } catch (e) {
+    console.error('post.feedForMe error:', { me, limit, cursor, error: e });
     return res.status(500).json({ error: 'Failed to load feed' });
   }
 }

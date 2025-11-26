@@ -27,6 +27,7 @@ export async function register(req: Request, res: Response) {
     const totalPosts = await countPosts(id);
     return res.status(201).json({ token, user: { id, username, email, totalFollowers, totalPosts } });
   } catch (e) {
+    console.error('auth.register error:', e);
     return res.status(500).json({ error: 'Failed to register' });
   }
 }
@@ -50,6 +51,7 @@ export async function login(req: Request, res: Response) {
     const totalPosts = await countPosts(user.id);
     return res.json({ token, user: { id: user.id, username: user.username, email: user.email, totalFollowers, totalPosts } });
   } catch (e) {
+    console.error('auth.login error:', e);
     return res.status(500).json({ error: 'Failed to login' });
   }
 }
